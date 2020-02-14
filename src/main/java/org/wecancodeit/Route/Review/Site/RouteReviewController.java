@@ -1,16 +1,28 @@
 package org.wecancodeit.Route.Review.Site;
 
+import javax.annotation.Resource;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class RouteReviewController {
 
+	@Resource
+	private ReviewSiteRepository routeRepo;
 	
-	@GetMapping("localhost:8080/show-routes")
+	@GetMapping("/show-routes")
 	public String findAllRoutes(Model model) {
-		return "routes-template";
-		
+		model.addAttribute("routesModel", routeRepo.findAllRoutes());
+		return "routes-templates";
+		//src/main/resources/templates (name of template) + .html
+	}
+	
+	@GetMapping("/show-single-route")
+	public String findOneRoute(@RequestParam Long id, Model model) {
+		model.addAttribute("routeModel", routeRepo.findOneRoute(id));
+		return "route-template";
 	}
 }

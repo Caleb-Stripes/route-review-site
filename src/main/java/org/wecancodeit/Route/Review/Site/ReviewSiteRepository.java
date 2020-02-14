@@ -4,11 +4,20 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.stereotype.Repository;
+
+@Repository
 public class ReviewSiteRepository {
 
 	private Map<Long, Route> routeList = new HashMap<>();
-	//private Route routeOne = new Route(1L, "Twinky", "twinky.img", "5.12a", "Steepest route in the Red");
+	private Route routeOne = new Route(1L, "Twinky", "twinky.img", "5.12a", "Steepest route in the Red");
+	private Route routeTwo = new Route(2L, "Phantasia", "phantasia.img", "5.12d", "Next to Twinky");
+
 	
+	public ReviewSiteRepository() {
+		routeList.put(routeOne.getId(), routeOne);
+		routeList.put(routeTwo.getId(), routeTwo);
+	}
 	
 	//uses varargs for testing purposes to take on necessary courses
 	public ReviewSiteRepository(Route...routes) {
