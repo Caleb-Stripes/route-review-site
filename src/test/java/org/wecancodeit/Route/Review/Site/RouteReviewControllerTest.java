@@ -59,14 +59,16 @@ public class RouteReviewControllerTest {
 	@Test
 	public void shouldAddSingleRouteToModel() throws Exception {
 		when(routeRepo.findOneRoute(1L)).thenReturn(routeOne);
-		this.mockMvc.perform(get("/show-single-route?id=1")).andExpect(model().attribute("routeModel", is(routeOne)));
+		this.mockMvc.perform(get("/show-single-route?id=1"))
+		.andExpect(model().attribute("routeModel", is(routeOne)));
 	}
 	
 	@Test
 	public void shouldReturnNotFoundForBadRequest() throws Exception {
 		Long badId = 90L;
 		when(routeRepo.findOneRoute(badId)).thenReturn(null);
-		this.mockMvc.perform(get("/show-single-route?id=90")).andExpect(status().isNotFound());
+		this.mockMvc.perform(get("/show-single-route?id=90"))
+		.andExpect(status().isNotFound());
 	}
 	
 	
