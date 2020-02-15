@@ -2,6 +2,7 @@ package org.wecancodeit.Route.Review.Site;
 
 
 import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
@@ -43,9 +44,9 @@ public class RouteReviewControllerTest {
 	}
 	
 	@Test
-	public void shouldGetStatusOfOkWhenNavigattingToSingleCoursesPage() throws Exception {
+	public void shouldGetStatusOfOkWhenNavigattingToRouteOnePage() throws Exception {
 		when(routeRepo.findOneRoute(1L)).thenReturn(routeOne);
-		this.mockMvc.perform(get("/show-single-route")).andExpect(status().isOk())
+		this.mockMvc.perform(get("/show-single-route?id=1")).andExpect(status().isOk())
 		.andExpect(view().name("route-template"));
 	}
 	
@@ -55,7 +56,18 @@ public class RouteReviewControllerTest {
 		this.mockMvc.perform(get("/show-routes")).andExpect(model().attribute("routesModel", hasSize(2)));
 	}
 	
+	@Test
+	public void shouldAddSingleRouteToModel() throws Exception {
+		when(routeRepo.findOneRoute(1L)).thenReturn(routeOne);
+		this.mockMvc.perform(get("/show-single-route?id=1")).andExpect(model().attribute("routeModel", is(routeOne)));
+	}
 	
+	@Test
+	public void shouldReturnNotFoundForBadRequest() throws Exception {
+		Long badId = 90L;
+		when(routeRepo.findOneRoute(badId)).thenReturn(null);
+		this.mockMvc.perform(get("/show-single-route?id=90")).andExpect(status().isNotFound());
+	}
 	
 	
 }

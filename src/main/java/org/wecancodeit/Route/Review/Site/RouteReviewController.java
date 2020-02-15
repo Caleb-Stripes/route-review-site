@@ -21,7 +21,11 @@ public class RouteReviewController {
 	}
 	
 	@GetMapping("/show-single-route")
-	public String findOneRoute(@RequestParam Long id, Model model) {
+	public String findOneRoute(@RequestParam Long id, Model model) { //throws RouteNotFoundException{
+		if(routeRepo.findOneRoute(id) == null) {
+			//throw new RouteNotFoundException();
+			return "route-not-found";
+		}
 		model.addAttribute("routeModel", routeRepo.findOneRoute(id));
 		return "route-template";
 	}
